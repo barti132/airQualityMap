@@ -1,0 +1,3 @@
+logging:
+  level:
+    pl.bartoszsredzinski: DEBUG

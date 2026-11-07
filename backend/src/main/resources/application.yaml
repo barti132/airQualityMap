@@ -1,3 +1,7 @@
 spring:
   application:
     name: air-quality-map
+  datasource:
+    url: jdbc:sqlite:${AQM_DB_PATH:./data/air-quality.db}?journal_mode=WAL&busy_timeout=5000&foreign_keys=true&synchronous=NORMAL&transaction_mode=IMMEDIATE
+    hikari:
+      maximum-pool-size: 4
