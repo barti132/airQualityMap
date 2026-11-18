@@ -1,0 +1,28 @@
+# Lokalne uruchomienie: `docker compose up --build`. Zmienne (z domyślnymi wartościami)
+# pochodzą z pliku .env - szablon w .env.example. Frontend i Mailpit dojdą w krokach 4 i 7.
+name: air-quality-map
+
+services:
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      # Domyślnie prod (bezpieczniej, gdy zapomnisz o .env); lokalnie ustaw w .env: local.
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    volumes:
+      # Nazwany wolumen (nie bind mount): dziedziczy właściciela app:app z obrazu,
+      # a plik SQLite i pliki WAL potrzebują zapisywalnego katalogu.
+      - aqm-data:/data
+    # Limit kontenera steruje stertą JVM (MaxRAMPercentage=75 w obrazie).
+    mem_limit: ${BACKEND_MEM_LIMIT:-512m}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  aqm-data:
