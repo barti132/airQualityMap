@@ -1,0 +1,15 @@
+# Build context = backend/. Nie wysyłamy do demona Dockera niczego, co obraz zbuduje sam
+# albo co jest lokalne (baza deweloperska, IDE, artefakty).
+target/
+data/
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+.idea/
+*.iml
+HELP.md
+
+Dockerfile
+.dockerignore
